@@ -1,4 +1,9 @@
 import { Carousel, Container, Col, Row } from 'react-bootstrap'
+import items from '../data/menu.json'
+
+for (let i = 0; i < items.length; i++) {
+
+}
 
 const Home = () => (
     // <div className="container" />
@@ -6,43 +11,30 @@ const Home = () => (
         {/* <div className="row" /> */}
         <Row className="mt-3 justify-content-center">
             {/* <div className="col" /> */}
-            <Col xs={12} md={6}>
+            <Col xs={12} md={6} className="text-center">
+                <h1>Welcome to Strivestaurant!</h1>
+                <p>We can serve only pasta</p>
                 <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="holder.js/800x400?text=First slide&bg=373940"
-                            alt="First slide"
-                        />
-                        <Carousel.Caption>
-                            <h3>First slide label</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="holder.js/800x400?text=Second slide&bg=282c34"
-                            alt="Second slide"
-                        />
 
-                        <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src="holder.js/800x400?text=Third slide&bg=20232a"
-                            alt="Third slide"
-                        />
+                    {/* .map() and .forEach() are quite similar */}
+                    {/* the only difference is that .map() RETURNS you a new array */}
 
-                        <Carousel.Caption>
-                            <h3>Third slide label</h3>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
+                    {
+                        items.map((pastaObject) => (
+                            <Carousel.Item key={pastaObject.id}>
+                                <img
+                                    className="d-block w-100"
+                                    src={pastaObject.image}
+                                    alt="First slide"
+                                />
+                                <Carousel.Caption>
+                                    <h3>{pastaObject.name}</h3>
+                                    <p>{pastaObject.description}</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        ))
+                    }
+
                 </Carousel>
             </Col>
         </Row>
