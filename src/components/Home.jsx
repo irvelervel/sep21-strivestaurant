@@ -2,6 +2,7 @@ import { Component } from 'react'
 import { Carousel, Container, Col, Row } from 'react-bootstrap'
 import items from '../data/menu.json'
 import DishComments from './DishComments'
+import ReservationForm from './ReservationForm'
 
 // now I want to generate dinamically a list of comments
 // the list should come from the last pasta slide I clicked on
@@ -33,7 +34,8 @@ class Home extends Component {
                     <Col xs={12} md={6} className="text-center">
                         <h1>Welcome to Strivestaurant!</h1>
                         <p>We can serve only pasta</p>
-                        <Carousel>
+                        <ReservationForm />
+                        <Carousel className="mt-5">
 
                             {/* .map() and .forEach() are quite similar */}
                             {/* the only difference is that .map() RETURNS you a new array */}
