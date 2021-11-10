@@ -10,11 +10,11 @@ let property = 'studentName'
 // (so with the VALUE of the name variable!)
 
 // this will create a property called 'name', not 'studentName'
-myObj['property'] = 'Stefano Casasola'
+myObj.property = 'Stefano Casasola'
 
 // the result (not what you wanted...)
 // let myObj = {
-//     property: 'Strive School'
+//     property: 'Stefano Casasola'
 // }
 
 // this instead will create a property called 'studentName',
@@ -67,11 +67,79 @@ class ReservationForm extends Component {
         })
     }
 
+    handleSubmit = async e => {
+        e.preventDefault()
+        console.log(this.state.reservation)
+        try {
+            // chained thens
+            // fetch('https://striveschool-api.herokuapp.com/api/reservation', {
+            //     method: 'POST',
+            //     body: JSON.stringify(this.state.reservation),
+            //     headers: {
+            //         'Content-type': 'application/json'
+            //     }
+            // })
+            //     .then(response => {
+            //         console.log('this will happen after some time!')
+            // if (response.ok) {
+            //     alert('OK!')
+            //     this.setState({
+            //         reservation: {
+            //             name: '',
+            //             phone: '',
+            //             numberOfPeople: 1,
+            //             smoking: false,
+            //             dateTime: '',
+            //             specialRequests: ''
+            //         }
+            //     })
+            // } else {
+            //     alert('ERROR')
+            // }
+            //     })
+            //     .catch(error => {
+            //         alert('SUPER ERROR!', error)
+            //     })
+
+            // console.log('this will happen immediately!')
+
+            // async/await pattern
+            let response = await fetch('https://striveschool-api.herokuapp.com/api/reservation', {
+                method: 'POST',
+                body: JSON.stringify(this.state.reservation),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+
+            if (response.ok) {
+                alert('OK!')
+                // let's reset the form restoring the initial values
+                this.setState({
+                    reservation: {
+                        name: '',
+                        phone: '',
+                        numberOfPeople: 1,
+                        smoking: false,
+                        dateTime: '',
+                        specialRequests: ''
+                    }
+                })
+            } else {
+                alert('ERROR')
+                // you'll fall here if something went wrong on the request processing
+            }
+        } catch (error) {
+            // probably you'll fall here if your internet connection has a problem...
+            console.log(error)
+        }
+    }
+
     render() {
         return (
             <>
                 <h2>Book your table NOW!</h2>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                     <Form.Group>
                         <Form.Label>Your name</Form.Label>
                         <Form.Control
@@ -90,6 +158,7 @@ class ReservationForm extends Component {
                                 // and now this is with the function I created:
                                 this.handleInput('name', e.target.value)
                             }}
+                            required
                         />
                     </Form.Group>
                     <Form.Group>
@@ -101,6 +170,7 @@ class ReservationForm extends Component {
                             onChange={(e) => {
                                 this.handleInput('phone', e.target.value)
                             }}
+                            required
                         />
                     </Form.Group>
                     <Form.Group>
@@ -110,6 +180,7 @@ class ReservationForm extends Component {
                             onChange={(e) => {
                                 this.handleInput('numberOfPeople', e.target.value)
                             }}
+                            required
                         >
                             <option>1</option>
                             <option>2</option>
@@ -139,6 +210,7 @@ class ReservationForm extends Component {
                             onChange={(e) => {
                                 this.handleInput('dateTime', e.target.value)
                             }}
+                            required
                         />
                     </Form.Group>
                     <Form.Group>
