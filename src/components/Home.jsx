@@ -1,6 +1,7 @@
 import { Component } from 'react'
-import { Carousel, Container, Col, Row, ListGroup } from 'react-bootstrap'
+import { Carousel, Container, Col, Row } from 'react-bootstrap'
 import items from '../data/menu.json'
+import DishComments from './DishComments'
 
 // now I want to generate dinamically a list of comments
 // the list should come from the last pasta slide I clicked on
@@ -44,11 +45,22 @@ class Home extends Component {
                                             className="d-block w-100"
                                             src={pastaObject.image}
                                             alt="First slide"
+                                            // we cannot do this.state.selectedDish = pastaObject
+                                            // SUPER WRONG!
                                             onClick={() => this.setState(
                                                 {
                                                     selectedDish: pastaObject
                                                 }
                                             )}
+                                        // the setState method accepts an object
+                                        // every property of this object will be
+                                        // MERGED into the state of the component
+                                        // and so if you pass to setState an object
+                                        // with a property already present in the actual state
+                                        // you're OVERWRITING that property, you're setting
+                                        // a new value for it
+                                        // final clue: every time you use the setState method
+                                        // the component will re-render!!
                                         />
                                         <Carousel.Caption>
                                             <h3>{pastaObject.name}</h3>
@@ -63,23 +75,7 @@ class Home extends Component {
                 </Row>
                 <Row className="mt-3 justify-content-center">
                     <Col xs={12} md={6} className="text-center">
-                        <ListGroup>
-                            {
-                                // the && is a conditional rendering operator
-                                // is called SHORT CIRCUIT
-                                // if the section before the && is truthy, the second
-                                // half will be rendered
-                                // this.state.selectedDish && this.state.selectedDish.comments.map(c => (
-                                //     <ListGroup.Item key={c.id}>{c.comment}</ListGroup.Item>
-                                // ))
-
-                                // otherwise, if you want to provide 2 different outputs, you can
-                                // use the good & ol' ternary operator
-                                this.state.selectedDish ? this.state.selectedDish.comments.map(c => (
-                                    <ListGroup.Item key={c.id}>{c.comment}</ListGroup.Item>
-                                )) : <ListGroup.Item>Click on a pasta to see the reviews!</ListGroup.Item>
-                            }
-                        </ListGroup>
+                        <DishComments selectedDish={this.state.selectedDish} />
                     </Col>
                 </Row>
             </Container>
@@ -88,3 +84,6 @@ class Home extends Component {
 }
 
 export default Home
+
+// the Home component is always remembering which one is the selected pasta
+// the Dishcomments component always needs a pasta to show the comments for
