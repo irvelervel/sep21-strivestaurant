@@ -15,6 +15,7 @@ import { Component } from "react";
 import ListGroup from 'react-bootstrap/ListGroup'
 import Spinner from 'react-bootstrap/Spinner'
 import Alert from 'react-bootstrap/Alert'
+import { parseISO, format } from "date-fns";
 
 class Reservations extends Component {
 
@@ -100,7 +101,7 @@ class Reservations extends Component {
                             {
                                 this.state.reservations.map(res => (
                                     <ListGroup.Item key={res._id}>
-                                        {res.name} for {res.numberOfPeople}
+                                        {res.name} for {res.numberOfPeople} on {format(parseISO(res.dateTime), 'EEEE, MMM. do - HH:mm')}
                                     </ListGroup.Item>
                                 ))
                             }
@@ -113,3 +114,13 @@ class Reservations extends Component {
 }
 
 export default Reservations
+
+// dateTime is a string coming from the db in the reservations objects
+
+// 2022-03-26T20:04:00.000Z
+
+// the process for converting this string into something more readable (Saturday, Nov. 26th at...)
+// goes like this:
+
+// 1) you have to convert that string into a Date object, for retrieving all the info about that date
+// 2) convert BACK that Date object into another string
